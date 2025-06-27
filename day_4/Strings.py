@@ -59,42 +59,76 @@ print(company[-1])
 #Question 17
 print(company[10])
 
-#Question 18
+#Question 18 acronym
 PFE = "Python for Everyone"
 
-#Question 19
+#Question 19 acronym
 CFA = "Coding For All"
 
-#Question 20
+#Question 20 
 print(CFA.index('C'))
 
 #Question 21
 print(CFA.index('F'))
 
-#Question 22
+#Question 22 
 print("Coding For All People".rfind('l')) 
 
-#Question 23
+#Question 23 
 sentence = 'You cannot end a sentence with because because because is a conjunction'
 print(sentence.find('because'))  
 
 #Question 24
-print(sentence.rindex('because'))
+print(sentence.rindex('because'))  
+
+#Question 25 
 start = sentence.find('because')
 end = sentence.rindex('because') + len('because')
 print(sentence[start:end])  
 
-#Question 25
+#Question 26
 print(sentence.find('because')) 
 
-#Question 26
+#Question 27
 print(sentence[start:end])  
 
-#Question 27
+#Question 28
 print("Coding For All".startswith('Coding'))  
 
-#Question 28
+#Question 29
 print("Coding For All".endswith('coding')) 
 
-#Question 29
+#Question 30
+print('   Coding For All      '.strip())  
 
+#Question 31
+#print("30DaysOfPython".isidentifier())   #False   
+print("thirty_days_of_python".isidentifier()) 
+
+#Question 32
+libraries = ['Django', 'Flask', 'Bottle', 'Pyramid', 'Falcon']
+joined = ' # '.join(libraries)
+print(joined)
+
+#Question 33 newline escape
+print("I am enjoying this challenge.\nI just wonder what is next.")
+
+#Question 34 tab escape
+print("Name\tAge\tCountry\tCity")
+print("Asabeneh\t250\tFinland\tHelsinki")
+
+#Question 35
+radius = 10
+area = 3.14 * radius ** 2
+print("The area of a circle with radius {} is {:.0f} meters square.".format(radius, area))  
+
+#Question 36
+a = 8
+b = 6
+print(f"{a} + {b} = {a + b}")
+print(f"{a} - {b} = {a - b}")
+print(f"{a} * {b} = {a * b}")
+print(f"{a} / {b} = {a / b:.2f}")
+print(f"{a} % {b} = {a % b}")
+print(f"{a} // {b} = {a // b}")
+print(f"{a} ** {b} = {a ** b}")
