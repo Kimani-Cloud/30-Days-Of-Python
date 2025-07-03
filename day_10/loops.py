@@ -100,6 +100,3 @@ sorted_by_population = sorted(countries_data, key=lambda x: x['population'], rev
 print("Top 10 most populated countries:")
 for country in sorted_by_population[:10]:
     print(country['name'], ":", country['population'])
-
-
-
