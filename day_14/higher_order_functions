@@ -1,0 +1,415 @@
+import random
+import string
+from functools import reduce
+from collections import Counter
+
+# --- Sample Data for Level 1 & 2 ---
+countries = ['Estonia', 'Finland', 'Sweden', 'Denmark', 'Norway', 'Iceland']
+names = ['Asabeneh', 'Lidiya', 'Ermias', 'Abraham']
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+
+
+# --- Exercises: Level 1 ---
+
+# 1. Explain the difference between map, filter, and reduce.
+# Level 1: Map, Filter, Reduce Explanation 
+
+#map(): Applies a given function to each item in an iterable and returns a new iterable (transformed data).
+#filter(): Constructs an iterator from elements of an iterable for which a function returns True (selected data).
+#reduce(): Applies a function of two arguments cumulatively to items of an iterable to reduce it to a single value (aggregated data).
+
+
+# 2. Explain the difference between higher order function, closure and decorator
+# Level 1: Higher Order Function, Closure, Decorator Explanation 
+
+#Higher-Order Function: A function that takes/returns other functions.
+#Closure: A nested function that remembers and accesses variables from its enclosing scope, even after the outer function finishes.
+#Decorator: A higher-order function that extends/modifies another function's behavior without changing its source code (often uses closures).
+
+# 3. Define a call function before map, filter or reduce, see examples.
+def square(x):
+    return x * x
+
+def starts_with_S(s):
+    return s.startswith('S')
+
+def concatenate_strings(acc, current):
+    return acc + current + " "
+
+print("\n--- Level 1: Call Functions for Map, Filter, Reduce Examples ---")
+print(f"Map with 'square' function on numbers: {list(map(square, numbers))}")
+print(f"Filter with 'starts_with_S' on countries: {list(filter(starts_with_S, countries))}")
+print(f"Reduce with 'concatenate_strings' on names: {reduce(concatenate_strings, names, '')}")
+
+# 4. Use for loop to print each country in the countries list.
+print("\n--- Level 1: Printing Countries with for loop ---")
+for country in countries:
+    print(country)
+
+# 5. Use for to print each name in the names list.
+print("\n--- Level 1: Printing Names with for loop ---")
+for name in names:
+    print(name)
+
+# 6. Use for to print each number in the numbers list.
+print("\n--- Level 1: Printing Numbers with for loop ---")
+for number in numbers:
+    print(number)
+
+
+# --- Exercises: Level 2 ---
+
+# 1. Use map to create a new list by changing each country to uppercase in the countries list
+print("\n--- Level 2: Map Examples ---")
+countries_uppercase = list(map(lambda country: country.upper(), countries))
+print(f"Countries in uppercase: {countries_uppercase}")
+
+# 2. Use map to create a new list by changing each number to its square in the numbers list
+numbers_squared = list(map(lambda num: num * num, numbers))
+print(f"Numbers squared: {numbers_squared}")
+
+# 3. Use map to change each name to uppercase in the names list
+names_uppercase = list(map(lambda name: name.upper(), names))
+print(f"Names in uppercase: {names_uppercase}")
+
+# 4. Use filter to filter out countries containing 'land'.
+print("\n--- Level 2: Filter Examples ---")
+countries_without_land = list(filter(lambda country: 'land' not in country.lower(), countries))
+print(f"Countries not containing 'land': {countries_without_land}")
+
+# 5. Use filter to filter out countries having exactly six characters.
+countries_six_chars = list(filter(lambda country: len(country) == 6, countries))
+print(f"Countries with exactly six characters: {countries_six_chars}")
+
+# 6. Use filter to filter out countries containing six letters and more in the country list.
+countries_six_or_more_letters = list(filter(lambda country: len(country) >= 6, countries))
+print(f"Countries with six or more letters: {countries_six_or_more_letters}")
+
+# 7. Use filter to filter out countries starting with an 'E'
+countries_starting_with_E = list(filter(lambda country: country.startswith('E'), countries))
+print(f"Countries starting with 'E': {countries_starting_with_E}")
+
+# 8. Chain two or more list iterators (e.g., arr.map(callback).filter(callback).reduce(callback))
+print("\n--- Level 2: Chained Iterators ---")
+chained_result = reduce(lambda acc, x: acc + x,
+                        filter(lambda num: num > 20,
+                               map(lambda num: num * num, numbers)))
+print(f"Chained result (square, filter >20, sum): {chained_result}")
+
+# 9. Declare a function called get_string_lists which takes a list as a parameter and then returns a list containing only string items.
+print("\n--- Level 2: get_string_lists function ---")
+def get_string_lists(input_list):
+    return list(filter(lambda item: isinstance(item, str), input_list))
+
+mixed_list = [10, 'hello', True, 3.14, 'world', False, None, 'python']
+string_items = get_string_lists(mixed_list)
+print(f"String items from mixed list: {string_items}")
+
+# 10. Use reduce to sum all the numbers in the numbers list.
+print("\n--- Level 2: Sum using reduce ---")
+sum_of_numbers_reduce = reduce(lambda acc, num: acc + num, numbers)
+print(f"Sum of numbers: {sum_of_numbers_reduce}")
+
+# 11. Use reduce to concatenate all the countries and to produce this sentence: Estonia, Finland, Sweden, Denmark, Norway, and Iceland are north European countries
+print("\n--- Level 2: Concatenate countries with reduce ---")
+def create_country_sentence(country_list):
+    if not country_list:
+        return "No countries provided."
+    if len(country_list) == 1:
+        return f"{country_list[0]} is a north European country."
+
+    temp_list = list(country_list)
+    last_country = temp_list.pop()
+    initial_part = reduce(lambda acc, country: f"{acc}, {country}", temp_list)
+    return f"{initial_part}, and {last_country} are north European countries."
+
+north_europe_sentence = create_country_sentence(countries)
+print(f"Generated sentence: {north_europe_sentence}")
+
+# 12. Declare a function called categorize_countries that returns a list of countries with some common pattern
+print("\n--- Level 2: Categorize Countries by Pattern ---")
+def categorize_countries(pattern, data):
+    matching_countries = []
+    for country_data in data:
+        country_name = country_data.get('name', '')
+        if pattern.lower() in country_name.lower():
+            matching_countries.append(country_name)
+    return matching_countries
+
+print(f"Countries with 'land': {categorize_countries('land', countries_data)}")
+print(f"Countries with 'ia': {categorize_countries('ia', countries_data)}")
+print(f"Countries with 'island': {categorize_countries('island', countries_data)}")
+print(f"Countries with 'stan': {categorize_countries('stan', countries_data)}")
+
+
+# 13. Create a function returning a dictionary, where keys stand for starting letters of countries and values are the number of country names starting with that letter.
+print("\n--- Level 2: Country Counts by Starting Letter ---")
+def count_countries_by_starting_letter(data):
+    letter_counts = {}
+    for country_data in data:
+        country_name = country_data.get('name', '')
+        if country_name:
+            first_letter = country_name[0].upper()
+            letter_counts[first_letter] = letter_counts.get(first_letter, 0) + 1
+    return letter_counts
+
+country_letter_counts = count_countries_by_starting_letter(countries_data)
+print(f"Country counts by starting letter: {country_letter_counts}")
+
+# 14. Declare a get_first_ten_countries function - it returns a list of first ten countries from the countries_data list in the data folder.
+print("\n--- Level 2: First Ten Countries ---")
+def get_first_ten_countries(data):
+    return [country['name'] for country in data[:10]]
+
+print(f"First ten countries: {get_first_ten_countries(countries_data)}")
+
+# 15. Declare a get_last_ten_countries function that returns the last ten countries in the countries list.
+print("\n--- Level 2: Last Ten Countries ---")
+def get_last_ten_countries(data):
+    return [country['name'] for country in data[-10:]]
+
+print(f"Last ten countries: {get_last_ten_countries(countries_data)}")
+
+
+# --- Exercises: Level 3 ---
+print("\n--- Exercises: Level 3 ---")
+
+# 1. Sort countries by name, by capital, by population
+print("\nSorting countries:")
+# By name
+countries_by_name = sorted(countries_data, key=lambda c: c['name'])
+print("By Name (first 5):")
+for i in range(5):
+    print(countries_by_name[i]['name'])
+
+# By capital
+countries_by_capital = sorted(countries_data, key=lambda c: c.get('capital', ''))
+print("\nBy Capital (first 5):")
+for i in range(5):
+    print(f"{countries_by_capital[i]['name']} (Capital: {countries_by_capital[i].get('capital', 'N/A')})")
+
+# By population
+countries_by_population = sorted(countries_data, key=lambda c: c.get('population', 0), reverse=True)
+print("\nBy Population (top 5):")
+for i in range(5):
+    print(f"{countries_by_population[i]['name']}: {countries_by_population[i]['population']:,}")
+
+# 2. Sort out the ten most spoken languages by location.
+print("\nTen most spoken languages:")
+all_languages_list = []
+for country_info in countries_data:
+    all_languages_list.extend(country_info.get('languages', []))
+
+language_counts = Counter(all_languages_list)
+most_spoken_languages = language_counts.most_common(10)
+
+for lang, count in most_spoken_languages:
+    print(f"{lang}: {count} countries")
+
+# 3. Sort out the ten most populated countries.
+
+# --- Data for Level 3 (from countries_data.py) ---
+countries_data = [
+    {"name": "Afghanistan", "capital": "Kabul", "population": 40218234, "languages": ["Pashto", "Dari"]},
+    {"name": "Albania", "capital": "Tirana", "population": 2832439, "languages": ["Albanian"]},
+    {"name": "Algeria", "capital": "Algiers", "population": 44700000, "languages": ["Arabic", "Berber"]},
+    {"name": "Andorra", "capital": "Andorra la Vella", "population": 77265, "languages": ["Catalan"]},
+    {"name": "Angola", "capital": "Luanda", "population": 32866268, "languages": ["Portuguese"]},
+    {"name": "Antigua and Barbuda", "capital": "Saint John's", "population": 97928, "languages": ["English"]},
+    {"name": "Argentina", "capital": "Buenos Aires", "population": 45195774, "languages": ["Spanish"]},
+    {"name": "Armenia", "capital": "Yerevan", "population": 2963243, "languages": ["Armenian"]},
+    {"name": "Australia", "capital": "Canberra", "population": 25499884, "languages": ["English"]},
+    {"name": "Austria", "capital": "Vienna", "population": 8917205, "languages": ["German"]},
+    {"name": "Azerbaijan", "capital": "Baku", "population": 10110116, "languages": ["Azerbaijani"]},
+    {"name": "Bahamas", "capital": "Nassau", "population": 393248, "languages": ["English"]},
+    {"name": "Bahrain", "capital": "Manama", "population": 1701575, "languages": ["Arabic"]},
+    {"name": "Bangladesh", "capital": "Dhaka", "population": 164689383, "languages": ["Bengali"]},
+    {"name": "Barbados", "capital": "Bridgetown", "population": 287375, "languages": ["English"]},
+    {"name": "Belarus", "capital": "Minsk", "population": 9449323, "languages": ["Belarusian", "Russian"]},
+    {"name": "Belgium", "capital": "Brussels", "population": 11589623, "languages": ["Dutch", "French", "German"]},
+    {"name": "Belize", "capital": "Belmopan", "population": 397621, "languages": ["English"]},
+    {"name": "Benin", "capital": "Porto-Novo", "population": 12123198, "languages": ["French"]},
+    {"name": "Bhutan", "capital": "Thimphu", "population": 771608, "languages": ["Dzongkha"]},
+    {"name": "Bolivia", "capital": "Sucre", "population": 11673029, "languages": ["Spanish", "Aymara", "Quechua"]},
+    {"name": "Bosnia and Herzegovina", "capital": "Sarajevo", "population": 3280819, "languages": ["Bosnian", "Croatian", "Serbian"]},
+    {"name": "Botswana", "capital": "Gaborone", "population": 2351627, "languages": ["English", "Tswana"]},
+    {"name": "Brazil", "capital": "Brasília", "population": 212559417, "languages": ["Portuguese"]},
+    {"name": "Brunei", "capital": "Bandar Seri Begawan", "population": 437479, "languages": ["Malay"]},
+    {"name": "Bulgaria", "capital": "Sofia", "population": 6948445, "languages": ["Bulgarian"]},
+    {"name": "Burkina Faso", "capital": "Ouagadougou", "population": 20903273, "languages": ["French"]},
+    {"name": "Burundi", "capital": "Bujumbura", "population": 11890784, "languages": ["Kirundi", "French"]},
+    {"name": "Cabo Verde", "capital": "Praia", "population": 555988, "languages": ["Portuguese"]},
+    {"name": "Cambodia", "capital": "Phnom Penh", "population": 16718965, "languages": ["Khmer"]},
+    {"name": "Cameroon", "capital": "Yaoundé", "population": 26545863, "languages": ["English", "French"]},
+    {"name": "Canada", "capital": "Ottawa", "population": 37941065, "languages": ["English", "French"]},
+    {"name": "Central African Republic", "capital": "Bangui", "population": 4829764, "languages": ["Sango", "French"]},
+    {"name": "Chad", "capital": "N'Djamena", "population": 16425970, "languages": ["Arabic", "French"]},
+    {"name": "Chile", "capital": "Santiago", "population": 19116209, "languages": ["Spanish"]},
+    {"name": "China", "capital": "Beijing", "population": 1402112000, "languages": ["Mandarin"]},
+    {"name": "Colombia", "capital": "Bogotá", "population": 50882884, "languages": ["Spanish"]},
+    {"name": "Comoros", "capital": "Moroni", "population": 869595, "languages": ["Comorian", "French", "Arabic"]},
+    {"name": "Congo (Brazzaville)", "capital": "Brazzaville", "population": 5518092, "languages": ["French", "Lingala", "Kikongo"]},
+    {"name": "Congo (Kinshasa)", "capital": "Kinshasa", "population": 89561404, "languages": ["French", "Lingala", "Kikongo", "Swahili", "Tshiluba"]},
+    {"name": "Costa Rica", "capital": "San José", "population": 5094118, "languages": ["Spanish"]},
+    {"name": "Croatia", "capital": "Zagreb", "population": 4008617, "languages": ["Croatian"]},
+    {"name": "Cuba", "capital": "Havana", "population": 11333483, "languages": ["Spanish"]},
+    {"name": "Cyprus", "capital": "Nicosia", "population": 1207361, "languages": ["Greek", "Turkish"]},
+    {"name": "Czech Republic", "capital": "Prague", "population": 10708981, "languages": ["Czech"]},
+    {"name": "Denmark", "capital": "Copenhagen", "population": 5792202, "languages": ["Danish"]},
+    {"name": "Djibouti", "capital": "Djibouti City", "population": 988000, "languages": ["Arabic", "French"]},
+    {"name": "Dominica", "capital": "Roseau", "population": 71293, "languages": ["English"]},
+    {"name": "Dominican Republic", "capital": "Santo Domingo", "population": 10847904, "languages": ["Spanish"]},
+    {"name": "East Timor (Timor Leste)", "capital": "Dili", "population": 1293119, "languages": ["Tetum", "Portuguese"]},
+    {"name": "Ecuador", "capital": "Quito", "population": 17643054, "languages": ["Spanish"]},
+    {"name": "Egypt", "capital": "Cairo", "population": 102334404, "languages": ["Arabic"]},
+    {"name": "El Salvador", "capital": "San Salvador", "population": 6486201, "languages": ["Spanish"]},
+    {"name": "Equatorial Guinea", "capital": "Malabo", "population": 1402989, "languages": ["Spanish", "French", "Portuguese"]},
+    {"name": "Eritrea", "capital": "Asmara", "population": 3550000, "languages": ["Tigrinya", "Arabic", "English"]},
+    {"name": "Estonia", "capital": "Tallinn", "population": 1331057, "languages": ["Estonian"]},
+    {"name": "Eswatini", "capital": "Mbabane", "population": 1160164, "languages": ["Swazi", "English"]},
+    {"name": "Ethiopia", "capital": "Addis Ababa", "population": 114963588, "languages": ["Amharic"]},
+    {"name": "Fiji", "capital": "Suva", "population": 896444, "languages": ["English", "Fijian", "Hindi"]},
+    {"name": "Finland", "capital": "Helsinki", "population": 5530719, "languages": ["Finnish", "Swedish"]},
+    {"name": "France", "capital": "Paris", "population": 67391582, "languages": ["French"]},
+    {"name": "Gabon", "capital": "Libreville", "population": 2225728, "languages": ["French"]},
+    {"name": "Gambia", "capital": "Banjul", "population": 2416664, "languages": ["English"]},
+    {"name": "Georgia", "capital": "Tbilisi", "population": 3716900, "languages": ["Georgian"]},
+    {"name": "Germany", "capital": "Berlin", "population": 83240525, "languages": ["German"]},
+    {"name": "Ghana", "capital": "Accra", "population": 31072940, "languages": ["English"]},
+    {"name": "Greece", "capital": "Athens", "population": 10423054, "languages": ["Greek"]},
+    {"name": "Grenada", "capital": "St. George's", "population": 112523, "languages": ["English"]},
+    {"name": "Guatemala", "capital": "Guatemala City", "population": 17915568, "languages": ["Spanish"]},
+    {"name": "Guinea", "capital": "Conakry", "population": 13132792, "languages": ["French"]},
+    {"name": "Guinea-Bissau", "capital": "Bissau", "population": 1967998, "languages": ["Portuguese"]},
+    {"name": "Guyana", "capital": "Georgetown", "population": 786552, "languages": ["English"]},
+    {"name": "Haiti", "capital": "Port-au-Prince", "population": 11402528, "languages": ["Haitian Creole", "French"]},
+    {"name": "Holy See", "capital": "Rome", "population": 801, "languages": ["Latin", "Italian", "French", "German"]},
+    {"name": "Honduras", "capital": "Tegucigalpa", "population": 9904608, "languages": ["Spanish"]},
+    {"name": "Hungary", "capital": "Budapest", "population": 9749763, "languages": ["Hungarian"]},
+    {"name": "Iceland", "capital": "Reykjavík", "population": 366425, "languages": ["Icelandic"]},
+    {"name": "India", "capital": "New Delhi", "population": 1380004385, "languages": ["Hindi", "English"]},
+    {"name": "Indonesia", "capital": "Jakarta", "population": 273523615, "languages": ["Indonesian"]},
+    {"name": "Iran", "capital": "Tehran", "population": 83992949, "languages": ["Persian (Farsi)"]},
+    {"name": "Iraq", "capital": "Baghdad", "population": 40222493, "languages": ["Arabic", "Kurdish"]},
+    {"name": "Ireland", "capital": "Dublin", "population": 4937796, "languages": ["Irish", "English"]},
+    {"name": "Israel", "capital": "Jerusalem", "population": 9216900, "languages": ["Hebrew", "Arabic"]},
+    {"name": "Italy", "capital": "Rome", "population": 59554023, "languages": ["Italian"]},
+    {"name": "Jamaica", "capital": "Kingston", "population": 2961167, "languages": ["English"]},
+    {"name": "Japan", "capital": "Tokyo", "population": 126476461, "languages": ["Japanese"]},
+    {"name": "Jordan", "capital": "Amman", "population": 10203148, "languages": ["Arabic"]},
+    {"name": "Kazakhstan", "capital": "Nur-Sultan", "population": 18754440, "languages": ["Kazakh", "Russian"]},
+    {"name": "Kenya", "capital": "Nairobi", "population": 53771300, "languages": ["Swahili", "English"]},
+    {"name": "Kiribati", "capital": "South Tarawa", "population": 119446, "languages": ["English", "Kiribati"]},
+    {"name": "Kuwait", "capital": "Kuwait City", "population": 4270571, "languages": ["Arabic"]},
+    {"name": "Kyrgyzstan", "capital": "Bishkek", "population": 6591600, "languages": ["Kyrgyz", "Russian"]},
+    {"name": "Laos", "capital": "Vientiane", "population": 7275556, "languages": ["Lao"]},
+    {"name": "Latvia", "capital": "Riga", "population": 1901509, "languages": ["Latvian"]},
+    {"name": "Lebanon", "capital": "Beirut", "population": 6825442, "languages": ["Arabic"]},
+    {"name": "Lesotho", "capital": "Maseru", "population": 2142241, "languages": ["Sesotho", "English"]},
+    {"name": "Liberia", "capital": "Monrovia", "population": 5057677, "languages": ["English"]},
+    {"name": "Libya", "capital": "Tripoli", "population": 6871287, "languages": ["Arabic"]},
+    {"name": "Liechtenstein", "capital": "Vaduz", "population": 38137, "languages": ["German"]},
+    {"name": "Lithuania", "capital": "Vilnius", "population": 2794700, "languages": ["Lithuanian"]},
+    {"name": "Luxembourg", "capital": "Luxembourg City", "population": 625978, "languages": ["Luxembourgish", "French", "German"]},
+    {"name": "Madagascar", "capital": "Antananarivo", "population": 27691018, "languages": ["Malagasy", "French"]},
+    {"name": "Malawi", "capital": "Lilongwe", "population": 19129955, "languages": ["Chichewa", "English"]},
+    {"name": "Malaysia", "capital": "Kuala Lumpur", "population": 32365999, "languages": ["Malay"]},
+    {"name": "Maldives", "capital": "Malé", "population": 540960, "languages": ["Dhivehi"]},
+    {"name": "Mali", "capital": "Bamako", "population": 20250833, "languages": ["French"]},
+    {"name": "Malta", "capital": "Valletta", "population": 514564, "languages": ["Maltese", "English"]},
+    {"name": "Marshall Islands", "capital": "Majuro", "population": 59194, "languages": ["Marshallese", "English"]},
+    {"name": "Mauritania", "capital": "Nouakchott", "population": 4649658, "languages": ["Arabic"]},
+    {"name": "Mauritius", "capital": "Port Louis", "population": 1265711, "languages": ["English", "French"]},
+    {"name": "Mexico", "capital": "Mexico City", "population": 128932753, "languages": ["Spanish"]},
+    {"name": "Micronesia", "capital": "Palikir", "population": 115021, "languages": ["English"]},
+    {"name": "Moldova", "capital": "Chișinău", "population": 2657630, "languages": ["Romanian"]},
+    {"name": "Monaco", "capital": "Monaco", "population": 39244, "languages": ["French"]},
+    {"name": "Mongolia", "capital": "Ulaanbaatar", "population": 3278290, "languages": ["Mongolian"]},
+    {"name": "Montenegro", "capital": "Podgorica", "population": 621817, "languages": ["Montenegrin"]},
+    {"name": "Morocco", "capital": "Rabat", "population": 36910560, "languages": ["Arabic", "Berber"]},
+    {"name": "Mozambique", "capital": "Maputo", "population": 31255435, "languages": ["Portuguese"]},
+    {"name": "Myanmar", "capital": "Naypyidaw", "population": 54409800, "languages": ["Burmese"]},
+    {"name": "Namibia", "capital": "Windhoek", "population": 2540905, "languages": ["English"]},
+    {"name": "Nauru", "capital": "Yaren", "population": 10834, "languages": ["Nauruan", "English"]},
+    {"name": "Nepal", "capital": "Kathmandu", "population": 29136808, "languages": ["Nepali"]},
+    {"name": "Netherlands", "capital": "Amsterdam", "population": 17424976, "languages": ["Dutch"]},
+    {"name": "New Zealand", "capital": "Wellington", "population": 4822233, "languages": ["English", "Māori"]},
+    {"name": "Nicaragua", "capital": "Managua", "population": 6624554, "languages": ["Spanish"]},
+    {"name": "Niger", "capital": "Niamey", "population": 24206644, "languages": ["French"]},
+    {"name": "Nigeria", "capital": "Abuja", "population": 206139587, "languages": ["English"]},
+    {"name": "North Korea", "capital": "Pyongyang", "population": 25778816, "languages": ["Korean"]},
+    {"name": "North Macedonia", "capital": "Skopje", "population": 2077132, "languages": ["Macedonian"]},
+    {"name": "Norway", "capital": "Oslo", "population": 5379475, "languages": ["Norwegian"]},
+    {"name": "Oman", "capital": "Muscat", "population": 5106622, "languages": ["Arabic"]},
+    {"name": "Pakistan", "capital": "Islamabad", "population": 220892331, "languages": ["Urdu", "English"]},
+    {"name": "Palau", "capital": "Ngerulmud", "population": 18092, "languages": ["Palauan", "English"]},
+    {"name": "Palestine", "capital": "Ramallah", "population": 4803269, "languages": ["Arabic"]},
+    {"name": "Panama", "capital": "Panama City", "population": 4314768, "languages": ["Spanish"]},
+    {"name": "Papua New Guinea", "capital": "Port Moresby", "population": 8947024, "languages": ["Tok Pisin", "English", "Hiri Motu"]},
+    {"name": "Paraguay", "capital": "Asunción", "population": 7132530, "languages": ["Spanish", "Guaraní"]},
+    {"name": "Peru", "capital": "Lima", "population": 32971854, "languages": ["Spanish", "Quechua", "Aymara"]},
+    {"name": "Philippines", "capital": "Manila", "population": 109581078, "languages": ["Filipino", "English"]},
+    {"name": "Poland", "capital": "Warsaw", "population": 37999496, "languages": ["Polish"]},
+    {"name": "Portugal", "capital": "Lisbon", "population": 10196709, "languages": ["Portuguese"]},
+    {"name": "Qatar", "capital": "Doha", "population": 2881053, "languages": ["Arabic"]},
+    {"name": "Romania", "capital": "Bucharest", "population": 19286123, "languages": ["Romanian"]},
+    {"name": "Russia", "capital": "Moscow", "population": 144167123, "languages": ["Russian"]},
+    {"name": "Rwanda", "capital": "Kigali", "population": 12952218, "languages": ["Kinyarwanda", "French", "English"]},
+    {"name": "Saint Kitts and Nevis", "capital": "Basseterre", "population": 53192, "languages": ["English"]},
+    {"name": "Saint Lucia", "capital": "Castries", "population": 183627, "languages": ["English"]},
+    {"name": "Saint Vincent and the Grenadines", "capital": "Kingstown", "population": 110947, "languages": ["English"]},
+    {"name": "Samoa", "capital": "Apia", "population": 198416, "languages": ["Samoan", "English"]},
+    {"name": "San Marino", "capital": "San Marino", "population": 33931, "languages": ["Italian"]},
+    {"name": "Sao Tome and Principe", "capital": "São Tomé", "population": 219159, "languages": ["Portuguese"]},
+    {"name": "Saudi Arabia", "capital": "Riyadh", "population": 34813871, "languages": ["Arabic"]},
+    {"name": "Senegal", "capital": "Dakar", "population": 16740693, "languages": ["French"]},
+    {"name": "Serbia", "capital": "Belgrade", "population": 8737371, "languages": ["Serbian"]},
+    {"name": "Seychelles", "capital": "Victoria", "population": 98462, "languages": ["Seychellois Creole", "English", "French"]},
+    {"name": "Sierra Leone", "capital": "Freetown", "population": 7976985, "languages": ["English"]},
+    {"name": "Singapore", "capital": "Singapore", "population": 5685807, "languages": ["English", "Malay", "Mandarin", "Tamil"]},
+    {"name": "Slovakia", "capital": "Bratislava", "population": 5458827, "languages": ["Slovak"]},
+    {"name": "Slovenia", "capital": "Ljubljana", "population": 2100126, "languages": ["Slovene"]},
+    {"name": "Solomon Islands", "capital": "Honiara", "population": 686876, "languages": ["English"]},
+    {"name": "Somalia", "capital": "Mogadishu", "population": 15893219, "languages": ["Somali", "Arabic"]},
+    {"name": "South Africa", "capital": "Pretoria", "population": 59308690, "languages": ["Afrikaans", "English", "Southern Ndebele", "Northern Sotho", "Southern Sotho", "Swazi", "Tsonga", "Tswana", "Venda", "Xhosa", "Zulu"]},
+    {"name": "South Korea", "capital": "Seoul", "population": 51269185, "languages": ["Korean"]},
+    {"name": "South Sudan", "capital": "Juba", "population": 11193725, "languages": ["English"]},
+    {"name": "Spain", "capital": "Madrid", "population": 46754778, "languages": ["Spanish"]},
+    {"name": "Sri Lanka", "capital": "Sri Jayawardenepura Kotte", "population": 21413247, "languages": ["Sinhala", "Tamil"]},
+    {"name": "Sudan", "capital": "Khartoum", "population": 43849260, "languages": ["Arabic", "English"]},
+    {"name": "Suriname", "capital": "Paramaribo", "population": 586634, "languages": ["Dutch"]},
+    {"name": "Sweden", "capital": "Stockholm", "population": 10099270, "languages": ["Swedish"]},
+    {"name": "Switzerland", "capital": "Bern", "population": 8637489, "languages": ["German", "French", "Italian", "Romansh"]},
+    {"name": "Syria", "capital": "Damascus", "population": 17500657, "languages": ["Arabic"]},
+    {"name": "Taiwan", "capital": "Taipei", "population": 23816775, "languages": ["Mandarin"]},
+    {"name": "Tajikistan", "capital": "Dushanbe", "population": 9537645, "languages": ["Tajik", "Russian"]},
+    {"name": "Tanzania", "capital": "Dodoma", "population": 59734213, "languages": ["Swahili", "English"]},
+    {"name": "Thailand", "capital": "Bangkok", "population": 69799978, "languages": ["Thai"]},
+    {"name": "Togo", "capital": "Lomé", "population": 8278724, "languages": ["French"]},
+    {"name": "Tonga", "capital": "Nukuʻalofa", "population": 105695, "languages": ["Tongan", "English"]},
+    {"name": "Trinidad and Tobago", "capital": "Port of Spain", "population": 1399488, "languages": ["English"]},
+    {"name": "Tunisia", "capital": "Tunis", "population": 11818619, "languages": ["Arabic"]},
+    {"name": "Turkey", "capital": "Ankara", "population": 84339067, "languages": ["Turkish"]},
+    {"name": "Turkmenistan", "capital": "Ashgabat", "population": 6031187, "languages": ["Turkmen", "Russian"]},
+    {"name": "Tuvalu", "capital": "Funafuti", "population": 11792, "languages": ["Tuvaluan", "English"]},
+    {"name": "Uganda", "capital": "Kampala", "population": 45741000, "languages": ["English", "Luganda"]},
+    {"name": "Ukraine", "capital": "Kyiv", "population": 43733762, "languages": ["Ukrainian"]},
+    {"name": "United Arab Emirates", "capital": "Abu Dhabi", "population": 9890400, "languages": ["Arabic"]},
+    {"name": "United Kingdom", "capital": "London", "population": 67886011, "languages": ["English"]},
+    {"name": "United States", "capital": "Washington, D.C.", "population": 329484123, "languages": ["English"]},
+    {"name": "Uruguay", "capital": "Montevideo", "population": 3473727, "languages": ["Spanish"]},
+    {"name": "Uzbekistan", "capital": "Tashkent", "population": 33469203, "languages": ["Uzbek"]},
+    {"name": "Vanuatu", "capital": "Port Vila", "population": 307150, "languages": ["Bislama", "English", "French"]},
+    {"name": "Venezuela", "capital": "Caracas", "population": 28435940, "languages": ["Spanish"]},
+    {"name": "Vietnam", "capital": "Hanoi", "population": 97338579, "languages": ["Vietnamese"]},
+    {"name": "Yemen", "capital": "Sana'a", "population": 29825968, "languages": ["Arabic"]},
+    {"name": "Zambia", "capital": "Lusaka", "population": 18383956, "languages": ["English"]},
+    {"name": "Zimbabwe", "capital": "Harare", "population": 14862924, "languages": ["Shona", "Ndebele", "English"]}
+]
+
+print("\nTen most populated countries:")
+top_10_populated = sorted(countries_data, key=lambda c: c.get('population', 0), reverse=True)[:10]
+
+for country_info in top_10_populated:
+    print(f"{country_info['name']}: {country_info['population']:,}")
