@@ -1,0 +1,72 @@
+#syntax errors
+
+#print 'hello world'
+print("Hello World.")
+
+#Name error
+
+#print(age)
+
+age=45
+print(age)
+
+#index error
+
+#numbers = [1, 2, 3, 4, 5]
+# numbers[5]
+
+numbers = [1, 2, 3, 4, 5]
+numbers[4]
+
+#Module Not Found Error
+
+#import maths
+
+import math
+
+#Attribute Error
+
+#import math
+#math.PI
+
+import math
+math.pi
+
+#Key Error
+
+#users = {'name':'Asab', 'age':250, 'country':'Finland'}
+#users['name']
+#'Asab'
+# users['county']
+
+user = {'name':'Asab', 'age':250, 'country':'Finland'}
+user['name']
+'Asab'
+user['country']
+'Finland'
+
+#Type Error
+
+#4 + '3'
+
+4 + int('3')
+
+4 + float('3')
+
+
+#Import Error
+
+#from math import power
+
+from math import pow
+
+#Value Error
+
+#int('12a')
+
+'12a'
+
+#Zero Division Error
+
+#1/0
+#We cannot divide a number by zero.
